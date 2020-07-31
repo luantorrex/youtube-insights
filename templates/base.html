@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Wendy+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="static/style/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/style.css') }}">
     <script src="https://kit.fontawesome.com/a2f2101495.js"></script>
-    <title>Youtube Insights</title>
+    <title>{% block title %}{% endblock %}</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-danger">
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <a class="navbar-brand text-light">Youtube Insights</a>
+            <a class="navbar-brand text-light" href="{{ url_for("home") }}">Youtube Insights</a>
           </ul>
 
           <form action="#" method="POST" class="form-inline my-2 my-lg-0">
@@ -24,8 +24,8 @@
     </nav>
 
     <div class="container">
-        <h1>Bem-vindo ao Youtube Insights!</h1>
-        <h2>Digite no campo de pesquisa o URL de um vídeo que lhe daremos insights sobre o canal.</h2>
+        {% block content %}
+        {% endblock %}
     </div>
 
 </body>

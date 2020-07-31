@@ -5,14 +5,16 @@ app = Flask(__name__)
 @app.route("/", methods=["POST","GET"])
 def home():
     if request.method == "POST":
-        url = request.form["url"]
-        return redirect(url_for("results", youtubeUrl=url))
+        return redirect(url_for("results", youtubeUrl=request.form["url"]))
     else:
-        return render_template("index.html")
+        return render_template("home.html")
 
-@app.route("/<youtubeUrl>/")
+@app.route("/<youtubeUrl>/", methods=["POST","GET"])
 def results(youtubeUrl):
-    return f"<h1>{youtubeUrl}</h1>"
+    if request.method == "POST":
+        return redirect(url_for("results", youtubeUrl=request.form["url"]))
+    else:
+        return render_template("result.html", urlToHtml=youtubeUrl)
 
 if __name__ == "__main__":
     app.run(debug=True) 

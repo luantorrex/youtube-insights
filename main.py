@@ -12,7 +12,7 @@ def home():
 @app.route("/<youtubeUrl>/", methods=["POST","GET"])
 def results(youtubeUrl):
     if request.method == "POST":
-        return redirect(url_for("results", youtubeUrl = request.form["url"]))
+        return redirect(url_for("results", youtubeUrl = request.form["url"].split('.com/')[-1]))
     elif 'watch?v=' in youtubeUrl:
         return render_template("result.html", urlToHtml = youtubeUrl)
     else:

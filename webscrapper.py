@@ -17,6 +17,8 @@ soup = BeautifulSoup(htmlContent, 'html.parser')
 
 videos = soup.find_all('div',{"id":"dismissable"})
 
+driver.close()
+
 master_list = []
 
 for video in videos:
@@ -31,8 +33,6 @@ for video in videos:
         views = views.replace('M', '')
         video_info['views'] = float(views) * 1000000
     master_list.append(video_info)
-
-driver.close()
 
 import pandas as pd
 df = pd.DataFrame(master_list)

@@ -1,3 +1,4 @@
+import getChannelName
 from flask import Flask, request, url_for, redirect, render_template
 
 app = Flask(__name__)
@@ -14,7 +15,7 @@ def results(youtubeUrl):
     if request.method == "POST":
         return redirect(url_for("results", youtubeUrl = request.form["url"].split('.com/')[-1]))
     elif 'watch?v=' in youtubeUrl:
-        return render_template("result.html", urlToHtml = youtubeUrl)
+        return render_template("result.html", urlToHtml = getChannelName.getChannelName(youtubeUrl))
     else:
         return redirect(url_for("wrongUrl", urlToHtml = youtubeUrl))
 

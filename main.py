@@ -15,8 +15,9 @@ def results(youtubeUrl):
     if request.method == "POST":
         return redirect(url_for("results", youtubeUrl = request.form["url"].split('.com/')[-1]))
     elif 'watch?v=' in youtubeUrl:
-        results = getChannelInfo.getChannelInfo(youtubeUrl)
-        return render_template("result.html", channelNameToHtml = results[0], channelViewsToHtml = results[1])
+        channelInfos = getChannelInfo.getChannelInfo(youtubeUrl)
+        return render_template("result.html", channelNameToHtml = channelInfos[0], channelViewsToHtml = channelInfos[1],
+                                              channelSubsToHtml = channelInfos[2])
     else:
         return redirect(url_for("wrongUrl", channelNameToHtml = youtubeUrl))
 

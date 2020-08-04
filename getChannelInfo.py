@@ -25,6 +25,9 @@ def getChannelInfo(url):
     soup = BeautifulSoup(content, 'html.parser')
     channelName = soup.find('div', {'class', 'style-scope ytd-channel-name'}).text.strip().split('\n')[0]
 
+    ##############                  getCountOfSubs                  ################
+    countOfSubs = soup.find_all('yt-formatted-string', {'class', 'ytd-c4-tabbed-header-renderer'})[0].text.split(' ')[0]
+
     ##############                  getCountOfViews                  ################
     linkToAbout = channelLink + '/about'
     driver.get(linkToAbout)
@@ -36,7 +39,7 @@ def getChannelInfo(url):
 
     driver.close()
 
-    return channelName, views
+    return channelName, views, countOfSubs
 
 """
 def getCountofViews(channelLink):

@@ -17,7 +17,7 @@ def results(youtubeUrl):
     elif 'watch?v=' in youtubeUrl:
         channelInfos = getChannelInfo.getChannelInfo(youtubeUrl)
         return render_template("result.html", channelNameToHtml = channelInfos[0], channelViewsToHtml = channelInfos[1],
-                                              channelSubsToHtml = channelInfos[2])
+                                              channelSubsToHtml = channelInfos[2], channelNumOfVideosToHtml = channelInfos[3])
     else:
         return redirect(url_for("wrongUrl", channelNameToHtml = youtubeUrl))
 

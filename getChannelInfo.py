@@ -37,20 +37,38 @@ def getChannelInfo(url):
     soup = BeautifulSoup(content, 'html.parser')
     views = soup.find_all('yt-formatted-string', {'class', 'style-scope ytd-channel-about-metadata-renderer'})[-1].text
 
+    ##############                  getAverageOfViews                  ################
+
+    linkToVideos = channelLink + '/videos?view=0&sort=dd&shelf_id=0'
+    driver.get(linkToVideos)
+
+    for _ in range(10):
+        driver.find_element_by_tag_name('body').send_keys(Keys.END)
+        time.sleep(3)
+
+    htmlContent = driver.page_source
+    soup = BeautifulSoup(htmlContent, 'html.parser')
+    videos = soup.find_all('div',{"id":"dismissable"})
+
+    master_list = []
+
+    for video in videos:
+        video_info = {}
+        video_info['title'] = video.find('a', {'id':'video-title'}).text
+        
+        viewsPerVideo = video.find('span', {'class' : 'ytd-grid-video-renderer'}).text.split(" ")[0]
+        if 'K' in viewsPerVideo:
+            viewsPerVideo = viewsPerVideo.replace('K', '')
+            video_info['views'] = float(viewsPerVideo) * 1000
+        elif 'M' in viewsPerVideo:
+            viewsPerVideo = viewsPerVideo.replace('M', '')
+            video_info['views'] = float(viewsPerVideo) * 1000000
+        master_list.append(video_info)
+
+    numberOfVideos = len(master_list)
+    #intViews = int(views.split(' views')[0].replace(',', ''))
+
+    #################################################################################
     driver.close()
 
-    return channelName, views, countOfSubs
-
-"""
-def getCountofViews(channelLink):
-    driver = webdriver.Chrome(ChromeDriverManager().install())
-    linkToAbout = channelLink + '/about'
-    driver.get(linkToAbout)
-    
-    content = driver.page_source
-
-    soup = BeautifulSoup(content, 'html.parser')
-    views = soup.find_all('yt-formatted-string', {'class', 'style-scope ytd-channel-about-metadata-renderer'})[-1].text
-    driver.close()
-    return views
-"""
+    return channelName, views, countOfSubs, numberOfVideos
